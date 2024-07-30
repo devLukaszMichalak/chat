@@ -1,0 +1,14 @@
+<div class="w-svw h-svh flex justify-center items-center">
+
+    @if ({joinId: joinId$ | async, messages: messages$ | async}; as vm) {
+
+        @if (!vm.joinId) {
+            <app-join-room/>
+        }
+
+        @if (vm.messages && user()) {
+            <app-chat [messages]="vm.messages" [sender]="user()" [joinId]="vm.joinId ?? ''"/>
+        }
+    }
+
+</div>

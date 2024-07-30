@@ -1,0 +1,35 @@
+<div class="flex flex-col">
+
+    <div class="card bg-base-200 shadow-xl h-[75svh] w-[50svw]
+     mb-8 overflow-y-auto overflow-x-clip whitespace-break-spaces break-all">
+        <div class="card-body">
+            @for (message of messages(); track message.sender + message.date) {
+                <div>{{ message.sender }}: {{ message.content }}</div>
+            }
+        </div>
+    </div>
+
+    <div class="flex">
+        <button class="btn btn-neutral"
+                (click)="copyJoinId()">Copy join ID
+        </button>
+
+        <div class="divider divider-horizontal"></div>
+
+        <div class="flex-1 join w-full">
+            <form class="w-full" [formGroup]="messageForm">
+                <input class="join-item input input-bordered w-full"
+                       formControlName="message"
+                       (keydown.enter)="sendMessageIfEnabled()"
+                       placeholder="Message...">
+            </form>
+
+            <button class="join-item btn btn-neutral"
+                    [disabled]="disableSend()"
+                    (click)="sendMessage()">Send
+            </button>
+        </div>
+    </div>
+
+
+</div>

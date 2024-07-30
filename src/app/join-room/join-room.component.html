@@ -1,0 +1,32 @@
+<div class="card bg-base-200 w-fit shadow-xl">
+    <div class="card-body">
+        <form [formGroup]="joinForm">
+            <h2 class="card-title mb-2">What is your name?</h2>
+            <input class="input input-bordered w-full"
+                   formControlName="user"
+                   placeholder="Username">
+
+            <h2 class="card-title mt-6 mb-2">Pick your room!</h2>
+            <div class="flex w-full">
+                <div class="flex flex-1 items-center">
+                    <button class="btn btn-neutral w-full"
+                            [disabled]="disableJoin$ | async"
+                            (click)="createNewRoom()">Start new
+                    </button>
+                </div>
+
+                <div class="divider divider-horizontal"></div>
+
+                <div class="flex-1 join">
+                    <input class="join-item input input-bordered w-full"
+                           formControlName="joinId"
+                           placeholder="Join ID">
+                    <button class="join-item btn btn-neutral"
+                            [disabled]="disableJoin$ | async"
+                            (click)="join()">Join
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
