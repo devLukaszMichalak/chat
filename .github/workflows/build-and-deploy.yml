@@ -1,0 +1,36 @@
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.1.21
+
+      - name: Make firebase config
+        run: echo ${{secrets.FIREBASE}} > firebase-config.ts
+
+      - name: Install dependencies
+        run: bun i
+
+      - name: Build project
+        run: bun run build
+
+      - name: Make keys file
+        run: echo ${{secrets.KEYS}} > keys.json
+
+      - name: Deploy to Firebase Hosting
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: keys.json
+        run: |
+          sudo bun i -g firebase-tools
+          firebase deploy --only hosting
