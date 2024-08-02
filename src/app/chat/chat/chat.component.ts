@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, InputSignal } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from '../../common/data/message.service';
 import { Message } from '../../common/data/message';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { transition, trigger, useAnimation } from '@angular/animations';
+import { slideInRight } from 'ng-animate';
 
 @Component({
   selector: 'app-chat',
@@ -14,6 +16,12 @@ import { map } from 'rxjs';
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
+  animations: [
+    trigger('slide', [
+        transition(':enter', useAnimation(slideInRight, {params: {timing: 0.2}}))
+      ]
+    )
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent {

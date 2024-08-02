@@ -4,7 +4,7 @@
      mb-8 overflow-y-auto overflow-x-clip whitespace-break-spaces break-all">
         <div class="card-body">
             @for (message of messages(); track message.sender + message.date) {
-                <div>{{ message.sender }}: {{ message.content }}</div>
+                <div [@slide]>{{ message.sender }}: {{ message.content }}</div>
             }
         </div>
 

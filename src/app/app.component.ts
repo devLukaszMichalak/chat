@@ -7,6 +7,8 @@ import { JoinRoomComponent } from './join-room/join-room.component';
 import { ChatComponent } from './chat/chat/chat.component';
 import { JoinService } from './common/data/join.service';
 import { Message } from './common/data/message';
+import { style, transition, trigger, useAnimation } from '@angular/animations';
+import { lightSpeedInLeft, lightSpeedOutRight } from 'ng-animate';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,13 @@ import { Message } from './common/data/message';
   imports: [RouterOutlet, AsyncPipe, FormsModule, ReactiveFormsModule, JoinRoomComponent, ChatComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
+  animations: [
+    trigger('lightSpeed', [
+        transition(':enter', useAnimation(lightSpeedInLeft, {params: {timing: 0.6}})),
+        transition(':leave', [style({position: 'absolute'}), useAnimation(lightSpeedOutRight, {params: {timing: 0.3}})])
+      ]
+    )
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {

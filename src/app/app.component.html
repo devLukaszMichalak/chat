@@ -3,11 +3,11 @@
     @if ({joinId: joinId$ | async, messages: messages$ | async}; as vm) {
 
         @if (!vm.joinId) {
-            <app-join-room/>
+            <app-join-room [@lightSpeed]/>
         }
 
         @if (vm.messages && user()) {
-            <app-chat [messages]="vm.messages" [sender]="user()" [joinId]="vm.joinId ?? ''"/>
+            <app-chat [messages]="vm.messages" [sender]="user()" [joinId]="vm.joinId ?? ''" [@lightSpeed]/>
         }
     }
 
