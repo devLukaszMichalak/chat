@@ -32,5 +32,5 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: keys.json
         run: |
-          sudo bun i -g firebase-tools
+          sudo npm i -g firebase-tools
           firebase deploy --only hosting
