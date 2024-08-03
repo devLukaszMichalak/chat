@@ -3,7 +3,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from '../../common/data/message.service';
 import { Message } from '../../common/data/message';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { map, timer } from 'rxjs';
 import { transition, trigger, useAnimation } from '@angular/animations';
 import { slideInRight } from 'ng-animate';
 
@@ -42,6 +42,8 @@ export class ChatComponent {
     {initialValue: ''});
   
   disableSend = computed(() => this.#messageContent().length < 1 || this.#messageContent().length > 250);
+  
+  showJoinIdButton = toSignal(timer(700).pipe(map(() => true)), {initialValue: false});
   
   sendMessage = async () => {
     const messageContent = this.#messageContent();

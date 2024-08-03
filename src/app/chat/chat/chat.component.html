@@ -9,10 +9,6 @@
                 </div>
             }
         </div>
-
-        <button class="btn btn-neutral w-fit absolute bottom-4 right-4"
-                (click)="copyJoinId()">Copy join ID
-        </button>
     </div>
 
     <div class="flex w-[75svw]">
@@ -32,5 +28,10 @@
 
     </div>
 
-
 </div>
+
+<button class="btn btn-neutral w-fit bottom-[20svh] right-[15svw]"
+        [class.hidden]="!showJoinIdButton()"
+        [class.fixed]="showJoinIdButton()"
+        (click)="copyJoinId()">Copy join ID
+</button>
