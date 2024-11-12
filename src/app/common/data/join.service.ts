@@ -1,5 +1,5 @@
 import { inject, Injectable, Signal } from '@angular/core';
-import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
+import { map, Observable, shareReplay, startWith, Subject, switchMap } from 'rxjs';
 import { Room } from './room';
 import { FormBuilder } from '@angular/forms';
 import { ChatCollectionService } from './chat-collection.service';
@@ -18,16 +18,15 @@ export class JoinService {
     joinId: ['']
   });
   
-  #joinId$ = new Subject<string>();
+  #joinIdSubject$ = new Subject<string>();
   
-  get joinId$() {
-    return this.#joinId$.asObservable().pipe(startWith(''));
-  }
+  joinId$ = this.#joinIdSubject$.asObservable()
+    .pipe(shareReplay({bufferSize: 1, refCount: true}));
   
   user: Signal<string> = toSignal(this.#joinForm.controls.user.valueChanges
     .pipe(map(value => value ?? '')), {initialValue: ''});
   
-  room$: Observable<Room> = this.#joinId$.pipe(
+  room$: Observable<Room> = this.#joinIdSubject$.pipe(
     switchMap(joinId => this.#chatCollectionService.getRoom(joinId))
   );
   
@@ -42,13 +41,13 @@ export class JoinService {
   
   createNewRoom = async (): Promise<string> => {
     const joinId = await this.#chatCollectionService.initRoom();
-    this.#joinId$.next(joinId);
+    this.#joinIdSubject$.next(joinId);
     return joinId;
   };
   
   join = (): string => {
     const joinId: string = this.#joinForm.controls.joinId.value?.trim() ?? '';
-    this.#joinId$.next(joinId);
+    this.#joinIdSubject$.next(joinId);
     return joinId;
   };
   
